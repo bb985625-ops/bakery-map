@@ -80,3 +80,52 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC'
     .ai-panel { width: calc(100% - 40px); }
     #searchInput { max-width: 200px; }
 }
+/* ========== 添加店铺表单样式 ========== */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+}
+
+.form-group input {
+    width: 100%;
+    height: 40px;
+    border: 2px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #ff9a56;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+#addShopForm button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255,107,107,0.3);
+}
+
+/* 地图选点激活状态 */
+.picking-location {
+    cursor: crosshair !important;
+}
+.picking-location .marker-pin {
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.2); }
+}
