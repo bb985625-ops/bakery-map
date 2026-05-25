@@ -3,28 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🍞 Bakery Map</title>
+    <title>🍞 Bakery Map - 发现身边的甜蜜</title>
+    
+    <!-- 高德地图 CSS -->
     <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+    
+    <!-- 自定义样式 -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- ========== 顶部搜索栏 ========== -->
     <div class="search-bar">
         <div class="logo">🍞 Bakery Map</div>
         <input type="text" id="searchInput" placeholder="搜索面包店、甜品...">
         <button id="searchBtn">🔍</button>
         <button id="aiRouteBtn">🤖 AI规划路线</button>
+        <button id="addShopBtn">➕ 添加店铺</button>
+        <button id="exportBtn">💾 导出</button>
+        <input type="file" id="importFile" accept=".json" style="display:none">
+        <button id="importBtn">📁 导入</button>
     </div>
 
+    <!-- ========== 左侧商家列表（可收起） ========== -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h3>🏪 附近好店</h3>
             <button id="toggleSidebar">◀</button>
         </div>
-        <div class="shop-list" id="shopList"></div>
+        <div class="shop-list" id="shopList">
+            <!-- 商家卡片会由 JS 动态生成 -->
+        </div>
     </div>
 
+    <!-- ========== 地图容器 ========== -->
     <div id="mapContainer"></div>
 
+    <!-- ========== AI 路线规划面板（默认隐藏） ========== -->
     <div class="ai-panel" id="aiPanel">
         <div class="ai-header">
             <h3>🤖 AI 路线规划</h3>
@@ -34,14 +48,11 @@
             <p>告诉我你的需求，我帮你规划最优打卡路线！</p>
             <textarea id="aiPrompt" placeholder="例如：我想在2小时内打卡3家面包店，预算100元，喜欢日式面包..."></textarea>
             <button id="generateRoute">生成路线</button>
-            <button id="addShopBtn">➕ 添加店铺</button>
-<button id="exportBtn">💾 导出</button>
-<input type="file" id="importFile" accept=".json" style="display:none">
-<button id="importBtn">📁 导入</button>
             <div id="routeResult"></div>
         </div>
     </div>
 
+    <!-- ========== 商家详情弹窗 ========== -->
     <div class="modal" id="shopModal">
         <div class="modal-content">
             <button class="modal-close" id="modalClose">✕</button>
@@ -49,8 +60,7 @@
         </div>
     </div>
 
-    <script src="https://webapi.amap.com/maps?v=2.0&key=7506f5ee71046b5c49468e132a5fbc3e&plugin=AMap.Scale,AMap.ToolBar,AMap.Geocoder"></script>
-        <!-- ========== 添加店铺弹窗 ========== -->
+    <!-- ========== 添加店铺弹窗 ========== -->
     <div class="modal" id="addShopModal">
         <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
             <button class="modal-close" id="addShopModalClose">✕</button>
@@ -135,6 +145,11 @@
             </div>
         </div>
     </div>
+
+    <!-- 高德地图 JS（加了 Geocoder 插件） -->
+    <script src="https://webapi.amap.com/maps?v=2.0&key=7506f5ee71046b5c49468e132a5fbc3e&plugin=AMap.Scale,AMap.ToolBar,AMap.Geocoder"></script>
+    
+    <!-- 项目脚本 -->
     <script src="data.js"></script>
     <script src="route-planner.js"></script>
     <script src="app.js"></script>
