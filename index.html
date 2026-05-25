@@ -34,6 +34,10 @@
             <p>告诉我你的需求，我帮你规划最优打卡路线！</p>
             <textarea id="aiPrompt" placeholder="例如：我想在2小时内打卡3家面包店，预算100元，喜欢日式面包..."></textarea>
             <button id="generateRoute">生成路线</button>
+            <button id="addShopBtn">➕ 添加店铺</button>
+<button id="exportBtn">💾 导出</button>
+<input type="file" id="importFile" accept=".json" style="display:none">
+<button id="importBtn">📁 导入</button>
             <div id="routeResult"></div>
         </div>
     </div>
@@ -46,6 +50,91 @@
     </div>
 
     <script src="https://webapi.amap.com/maps?v=2.0&key=7506f5ee71046b5c49468e132a5fbc3e&plugin=AMap.Scale,AMap.ToolBar,AMap.Geocoder"></script>
+        <!-- ========== 添加店铺弹窗 ========== -->
+    <div class="modal" id="addShopModal">
+        <div class="modal-content" style="max-width: 600px; max-height: 90vh; overflow-y: auto;">
+            <button class="modal-close" id="addShopModalClose">✕</button>
+            <div style="padding: 25px;">
+                <h2 style="margin-bottom: 20px; color: #333;">➕ 添加新店铺</h2>
+                <form id="addShopForm">
+                    <div class="form-group">
+                        <label>店铺名称 *</label>
+                        <input type="text" id="shopName" required placeholder="例如：DRUNK BAKER">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>详细地址 *</label>
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" id="shopAddress" required placeholder="例如：上海市静安区富民路291号" style="flex:1;">
+                            <button type="button" id="geocodeBtn" style="width:auto; padding: 0 15px; background: #667eea; color: white; border: none; border-radius: 8px; cursor: pointer;">🔍 解析坐标</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>经度 *</label>
+                            <input type="number" id="shopLng" step="0.000001" required placeholder="121.445">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>纬度 *</label>
+                            <input type="number" id="shopLat" step="0.000001" required placeholder="31.225">
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="pickMapBtn" style="width: 100%; margin-bottom: 15px; padding: 10px; background: #fff3e6; color: #ff8c42; border: 2px dashed #ffcc99; border-radius: 10px; cursor: pointer; font-size: 14px;">
+                        📍 点击这里，然后在地图上点选位置
+                    </button>
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>评分 (1-5)</label>
+                            <input type="number" id="shopRating" min="1" max="5" step="0.1" value="4.5" required>
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>人均消费</label>
+                            <input type="text" id="shopPrice" placeholder="例如：人均 ¥35" value="人均 ¥35">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>标签（用逗号分隔）</label>
+                        <input type="text" id="shopTags" placeholder="例如：网红烘焙, 创意面包, 早午餐" value="网红烘焙, 创意面包">
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group" style="flex:1;">
+                            <label>营业时间</label>
+                            <input type="text" id="shopHours" placeholder="例如：08:00 - 22:00" value="08:00 - 22:00">
+                        </div>
+                        <div class="form-group" style="flex:1;">
+                            <label>电话</label>
+                            <input type="text" id="shopPhone" placeholder="例如：021-6248-1234">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>招牌推荐（每行一个，最多3个）</label>
+                        <input type="text" id="shopSig1" placeholder="🍞 招牌面包 — 描述..." style="margin-bottom: 8px;">
+                        <input type="text" id="shopSig2" placeholder="🥐 第二款招牌..." style="margin-bottom: 8px;">
+                        <input type="text" id="shopSig3" placeholder="🍰 第三款招牌...">
+                    </div>
+                    
+                    <div style="background: #f8f8f8; border-radius: 10px; padding: 15px; margin-bottom: 15px;">
+                        <label style="font-weight: bold; display: block; margin-bottom: 10px;">💬 添加一条评价</label>
+                        <input type="text" id="reviewUser" placeholder="你的昵称" style="margin-bottom: 8px;">
+                        <div style="display: flex; gap: 10px; margin-bottom: 8px;">
+                            <input type="number" id="reviewRating" min="1" max="5" value="5" style="width: 80px;" placeholder="评分">
+                            <input type="text" id="reviewText" placeholder="写一句评价..." style="flex:1;">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" style="width: 100%; padding: 14px; background: linear-gradient(135deg, #ff9a56, #ff6b6b); color: white; border: none; border-radius: 12px; font-size: 16px; cursor: pointer; font-weight: bold;">
+                        ✅ 保存店铺
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
     <script src="data.js"></script>
     <script src="route-planner.js"></script>
     <script src="app.js"></script>
